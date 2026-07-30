@@ -1,0 +1,94 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Vetelab: servidor de desenvolvimento",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "next",
+        "pattern": {
+          "regexp": "^(?!)$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Ready in.*"
+        }
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Vetelab: gerar build",
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Vetelab: servidor rápido",
+      "type": "npm",
+      "script": "preview",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "next",
+        "pattern": {
+          "regexp": "^(?!)$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Ready in.*"
+        }
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Vetelab: abrir preview rápido",
+      "type": "shell",
+      "command": "Start-Process 'http://localhost:3002'",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "Vetelab: abrir desenvolvimento",
+      "type": "shell",
+      "command": "Start-Process 'http://localhost:3000'",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "Vetelab: iniciar e abrir",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Vetelab: gerar build",
+        "Vetelab: servidor rápido",
+        "Vetelab: abrir preview rápido"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Vetelab: desenvolver e abrir",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Vetelab: servidor de desenvolvimento",
+        "Vetelab: abrir desenvolvimento"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

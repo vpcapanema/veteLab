@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { categoryLabels, services } from "@/lib/data/services";
 import { site } from "@/lib/data/site";
-import { whatsappLink } from "@/lib/utils";
+import { publicAsset, whatsappLink } from "@/lib/utils";
 
 export default function HomePage() {
   return (
@@ -38,7 +38,7 @@ function Hero() {
   return (
     <section className="relative flex h-[calc(100svh-7rem)] min-h-[620px] max-h-[760px] items-start overflow-hidden md:items-center">
       <Image
-        src="/images/dog-companion.jpg"
+        src={publicAsset("/images/dog-companion.jpg")}
         alt="Cão jovem olhando para a câmera com uma flor na boca"
         fill
         priority
@@ -84,7 +84,7 @@ function CarePromise() {
       <div className="container grid items-center gap-10 md:grid-cols-2 md:gap-16">
         <div className="relative aspect-[4/3] overflow-hidden rounded-md">
           <Image
-            src="/images/vet-care.jpg"
+            src={publicAsset("/images/vet-care.jpg")}
             alt="Pessoa acariciando um gato com cuidado"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"

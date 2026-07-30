@@ -1,8 +1,15 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+export const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function publicAsset(path: string) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  return `${basePath}/${path.replace(/^\//, "")}`;
 }
 
 export function formatPhone(digits: string) {

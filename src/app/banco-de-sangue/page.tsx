@@ -16,7 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/lib/data/site";
-import { whatsappLink } from "@/lib/utils";
+import { publicAsset, whatsappLink } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Banco de Sangue Canino",
@@ -73,7 +73,7 @@ function Hero() {
 
         <div className="relative aspect-[4/5] max-h-[580px] overflow-hidden rounded-md md:aspect-[5/6]">
           <Image
-            src="/images/blood-bank-dog-b.jpg"
+            src={publicAsset("/images/blood-bank-dog-b.jpg")}
             alt="Cão adulto saudável olhando para a câmera"
             fill
             priority

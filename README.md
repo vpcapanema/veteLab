@@ -2,6 +2,8 @@
 
 Sistema web do **Vetelab Laboratório Veterinário**, em Sinop-MT.
 
+Site publicado: <https://vpcapanema.github.io/veteLab/>
+
 ## O que já está pronto (Fases 0 → 2)
 
 **Fase 0 — Fundação**
@@ -34,6 +36,8 @@ Sistema web do **Vetelab Laboratório Veterinário**, em Sinop-MT.
 
 Todas as APIs têm rate-limit e validação com Zod. Se `RESEND_API_KEY` não estiver definida, o envio é simulado (log no console) — útil para desenvolver sem gastar créditos.
 
+No GitHub Pages, que não executa APIs Node.js, os formulários abrem o WhatsApp do VeteLab com os dados preenchidos. Em uma hospedagem Next.js com servidor, eles continuam usando as APIs acima.
+
 ## Como rodar localmente
 
 ```powershell
@@ -59,6 +63,10 @@ npm run typecheck  # validar tipos
 npm run lint       # ESLint
 npm run format     # Prettier
 ```
+
+## Publicação no GitHub Pages
+
+O workflow `.github/workflows/deploy-pages.yml` gera a exportação estática e publica automaticamente a cada push na branch `main`. A publicação também pode ser iniciada manualmente pela aba **Actions** do GitHub.
 
 ## Estrutura
 

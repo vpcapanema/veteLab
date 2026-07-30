@@ -20,6 +20,10 @@ import { Select } from "@/components/ui/select";
 
 import { Field } from "@/components/ui/field";
 
+import { site } from "@/lib/data/site";
+
+import { isStaticExport, whatsappLink } from "@/lib/utils";
+
 import { recipientSchema, type RecipientInput } from "@/lib/validators/forms";
 
 export function RecipientForm() {
@@ -52,6 +56,33 @@ export function RecipientForm() {
 
     setErrorMsg(undefined);
 
+    if (isStaticExport) {
+      const message = [
+        `Olá, VeteLab! Preciso solicitar sangue para um cão (${data.urgency}).`,
+        "",
+        `Responsável: ${data.tutorName}`,
+        `Cidade: ${data.city}`,
+        `E-mail: ${data.tutorEmail}`,
+        `WhatsApp: ${data.tutorPhone}`,
+        "",
+        `Cão: ${data.petName}`,
+        `Raça: ${data.petBreed || "SRD"}`,
+        `Idade: ${data.petAge} anos`,
+        `Peso: ${data.petWeight} kg`,
+        `Tipo necessário: ${data.petBloodType}`,
+        `Motivo: ${data.reason}`,
+        "",
+        `Clínica: ${data.clinicName}`,
+        `Veterinário: ${data.veterinarianName}`,
+        `CRMV: ${data.veterinarianCrmv}`,
+      ].join("\n");
+
+      window.open(whatsappLink(site.contact.whatsapp, message), "_blank", "noopener,noreferrer");
+      setStatus("success");
+      reset();
+      return;
+    }
+
     try {
       const res = await fetch("/api/banco-de-sangue/receptor", {
         method: "POST",
@@ -82,11 +113,14 @@ export function RecipientForm() {
       <div className="rounded-xl border border-blood/30 bg-blood/5 p-6 text-center">
         <LifeBuoy className="mx-auto h-12 w-12 text-blood" />
 
-        <h3 className="mt-3 text-xl font-semibold">Solicitação recebida!</h3>
+        <h3 className="mt-3 text-xl font-semibold">
+          {isStaticExport ? "Conversa aberta no WhatsApp!" : "Solicitação recebida!"}
+        </h3>
 
         <p className="mt-2 text-sm text-muted-foreground">
-          Nossa equipe verificará compatibilidade e disponibilidade e entrará em contato com você e
-          com o veterinário responsável o mais rápido possível.
+          {isStaticExport
+            ? "Revise os dados e toque em enviar para falar imediatamente com nossa equipe."
+            : "Nossa equipe verificará compatibilidade e disponibilidade e entrará em contato com você e com o veterinário responsável o mais rápido possível."}
         </p>
 
         <CheckCircle2 className="mx-auto mt-4 h-6 w-6 text-primary" />

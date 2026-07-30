@@ -18,6 +18,10 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { Field } from "@/components/ui/field";
 
+import { site } from "@/lib/data/site";
+
+import { isStaticExport, whatsappLink } from "@/lib/utils";
+
 import { contactSchema, type ContactInput } from "@/lib/validators/forms";
 
 export function ContactForm() {
@@ -43,6 +47,24 @@ export function ContactForm() {
     setStatus("loading");
 
     setErrorMsg(undefined);
+
+    if (isStaticExport) {
+      const message = [
+        "Olá, VeteLab! Gostaria de entrar em contato.",
+        "",
+        `Nome: ${data.name}`,
+        `E-mail: ${data.email}`,
+        `Telefone: ${data.phone}`,
+        `Assunto: ${data.subject}`,
+        "",
+        data.message,
+      ].join("\n");
+
+      window.open(whatsappLink(site.contact.whatsapp, message), "_blank", "noopener,noreferrer");
+      setStatus("success");
+      reset();
+      return;
+    }
 
     try {
       const res = await fetch("/api/contato", {
@@ -74,11 +96,14 @@ export function ContactForm() {
       <div className="rounded-xl border border-primary/30 bg-primary/5 p-6 text-center">
         <CheckCircle2 className="mx-auto h-10 w-10 text-primary" />
 
-        <h3 className="mt-3 text-lg font-semibold">Mensagem enviada!</h3>
+        <h3 className="mt-3 text-lg font-semibold">
+          {isStaticExport ? "Conversa aberta no WhatsApp!" : "Mensagem enviada!"}
+        </h3>
 
         <p className="mt-1 text-sm text-muted-foreground">
-          Retornaremos em horário comercial. Enquanto isso, você também pode falar conosco pelo
-          WhatsApp.
+          {isStaticExport
+            ? "Revise a mensagem e toque em enviar para falar com nossa equipe."
+            : "Retornaremos em horário comercial. Enquanto isso, você também pode falar conosco pelo WhatsApp."}
         </p>
 
         <Button className="mt-4" variant="outline" onClick={() => setStatus("idle")}>

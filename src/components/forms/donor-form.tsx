@@ -20,6 +20,10 @@ import { Select } from "@/components/ui/select";
 
 import { Field } from "@/components/ui/field";
 
+import { site } from "@/lib/data/site";
+
+import { isStaticExport, whatsappLink } from "@/lib/utils";
+
 import { donorSchema, type DonorInput } from "@/lib/validators/forms";
 
 export function DonorForm() {
@@ -45,6 +49,29 @@ export function DonorForm() {
     setStatus("loading");
 
     setErrorMsg(undefined);
+
+    if (isStaticExport) {
+      const message = [
+        "Olá, VeteLab! Gostaria de cadastrar um possível doador de sangue.",
+        "",
+        `Responsável: ${data.tutorName}`,
+        `Cidade: ${data.city}`,
+        `E-mail: ${data.tutorEmail}`,
+        `WhatsApp: ${data.tutorPhone}`,
+        "",
+        `Cão: ${data.petName}`,
+        `Raça: ${data.petBreed || "SRD"}`,
+        `Idade: ${data.petAge} anos`,
+        `Peso: ${data.petWeight} kg`,
+        `Tipo sanguíneo: ${data.petBloodType}`,
+        `Observações: ${data.healthNotes || "Nenhuma"}`,
+      ].join("\n");
+
+      window.open(whatsappLink(site.contact.whatsapp, message), "_blank", "noopener,noreferrer");
+      setStatus("success");
+      reset();
+      return;
+    }
 
     try {
       const res = await fetch("/api/banco-de-sangue/doador", {
@@ -76,16 +103,21 @@ export function DonorForm() {
       <div className="rounded-xl border border-blood/30 bg-blood/5 p-6 text-center">
         <HeartHandshake className="mx-auto h-12 w-12 text-blood" />
 
-        <h3 className="mt-3 text-xl font-semibold">Cadastro recebido!</h3>
+        <h3 className="mt-3 text-xl font-semibold">
+          {isStaticExport ? "Conversa aberta no WhatsApp!" : "Cadastro recebido!"}
+        </h3>
 
         <p className="mt-2 text-sm text-muted-foreground">
-          Nossa equipe entrará em contato para agendar a triagem e os exames pré-doação — sem custo
-          para você.
+          {isStaticExport
+            ? "Revise os dados e toque em enviar para concluir o contato com nossa equipe."
+            : "Nossa equipe entrará em contato para agendar a triagem e os exames pré-doação — sem custo para você."}
         </p>
 
         <CheckCircle2 className="mx-auto mt-4 h-6 w-6 text-primary" />
 
-        <p className="mt-1 text-xs text-muted-foreground">Confirmação enviada para seu e-mail.</p>
+        {!isStaticExport && (
+          <p className="mt-1 text-xs text-muted-foreground">Confirmação enviada para seu e-mail.</p>
+        )}
       </div>
     );
   }
